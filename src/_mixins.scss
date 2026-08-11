@@ -1,0 +1,11 @@
+@use './variables' as *;
+
+// 响应式断点 mixin
+// 用法: @include respond-to(md) { ... }
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == md {
+    @media (max-width: #{$breakpoint-md}) {
+      @content;
+    }
+  }
+}
