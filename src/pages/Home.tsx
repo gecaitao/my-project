@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "../assets/vite.svg";
 import heroImg from "../assets/hero.png";
+import data from "../assets/data.json"; // ① 默认导入：整个 JSON 对象
+import { name } from "../assets/data.json"; // ② 具名导入：只取根字段 name
 import "../App.scss";
 
 function Home() {
   const [count, setCount] = useState(0);
+
+  // JSON 导入演示：结果在浏览器控制台查看
+  useEffect(() => {
+    console.log("[默认导入] 整个 JSON 对象:", data);
+    console.log("[具名导入] 根字段 name:", name);
+  }, []);
 
   return (
     <>
