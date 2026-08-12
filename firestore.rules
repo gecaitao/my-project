@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// ⚠️ 这是"测试模式"规则：任何人在任何时间都可读写 messages 集合
+//    仅用于学习演示！上线前请接入 Authentication 并收紧权限
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /messages/{document} {
+      allow read, write: if true;
+    }
+  }
+}

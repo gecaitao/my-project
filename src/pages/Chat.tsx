@@ -1,39 +1,65 @@
 import { useEffect, useRef, useState } from "react";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../firebase";
 import "./Chat.scss";
 
 interface Message {
-  id: number;
+  id: string;
   role: "user" | "assistant";
   text: string;
 }
 
 function Chat() {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, role: "assistant", text: "你好！我是 Chat 助手，有什么可以帮你？" },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+
+  // 实时监听 Firestore 的 messages 集合（数据一变，所有客户端自动同步）
+  useEffect(() => {
+    const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map((doc) => {
+        const d = doc.data();
+        return {
+          id: doc.id,
+          role: d.role as Message["role"],
+          text: d.text as string,
+        };
+      });
+      setMessages(list);
+    });
+    return unsubscribe;
+  }, []);
 
   // 新消息时自动滚到底部
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const send = () => {
+  // 发送消息：写入 Firestore
+  const send = async () => {
     const text = input.trim();
     if (!text) return;
-    setMessages((prev) => [...prev, { id: Date.now(), role: "user", text }]);
     setInput("");
-    // 模拟回复（可替换为真实接口）
+    await addDoc(collection(db, "messages"), {
+      role: "user",
+      text,
+      createdAt: serverTimestamp(),
+    });
+    // 模拟回复：写入一条 assistant 消息（接入真实 AI 接口后替换）
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: "assistant",
-          text: `收到：${text}（这是一条模拟回复，接入真实接口后替换即可）`,
-        },
-      ]);
+      addDoc(collection(db, "messages"), {
+        role: "assistant",
+        text: `收到：${text}（这是一条模拟回复，接入真实接口后替换即可）`,
+        createdAt: serverTimestamp(),
+      });
     }, 600);
   };
 
