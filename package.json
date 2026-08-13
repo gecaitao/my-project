@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "vite --mode develop",
+    "dev:product": "vite --mode product",
+    "build": "tsc -b && vite build --mode product",
+    "build:develop": "tsc -b && vite build --mode develop",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview --mode product",
+    "preview:develop": "vite preview --mode develop"
   },
   "dependencies": {
     "firebase": "^12.17.1",

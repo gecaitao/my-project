@@ -1,5 +1,5 @@
-@use './variables' as *;
-@use './mixins' as *;
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
 
 .counter {
   font-size: 16px;

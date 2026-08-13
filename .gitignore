@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# 环境变量（本地覆盖文件忽略，.env.develop / .env.product 正常提交以便 CI 构建）
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

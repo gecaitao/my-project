@@ -7,7 +7,7 @@ import {
   orderBy,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "@/firebase";
 import "./Chat.scss";
 
 interface Message {

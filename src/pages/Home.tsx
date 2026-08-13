@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import reactLogo from "../assets/react.svg";
-import viteLogo from "../assets/vite.svg";
-import heroImg from "../assets/hero.png";
-import icons from "../assets/icons.svg";
-import data from "../assets/data.json"; // ① 默认导入：整个 JSON 对象
-import { name } from "../assets/data.json"; // ② 具名导入：只取根字段 name
-import "../App.scss";
+import reactLogo from "@/assets/images/react.svg";
+import viteLogo from "@/assets/images/vite.svg";
+import heroImg from "@/assets/images/hero.png";
+import icons from "@/assets/icons/icons.svg";
+import data from "@/data/data.json"; // ① 默认导入：整个 JSON 对象
+import { name } from "@/data/data.json"; // ② 具名导入：只取根字段 name
+import "./Home.scss";
 
 function Home() {
   const [count, setCount] = useState(0);
