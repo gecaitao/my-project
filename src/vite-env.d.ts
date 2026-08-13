@@ -12,6 +12,9 @@ interface ImportMetaEnv {
   /** 后端 API 请求地址 */
   readonly VITE_API_BASE_URL: string;
 
+  /** DeepSeek API Key（本地演示用，生产环境请走后端代理） */
+  readonly VITE_DEEPSEEK_API_KEY: string;
+
   /** Firebase API 密钥 */
   readonly VITE_FIREBASE_API_KEY: string;
   /** Firebase 认证域名 */

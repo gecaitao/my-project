@@ -57,6 +57,23 @@
       border: 1px solid var(--border);
       border-bottom-left-radius: 4px;
     }
+
+    // 流式输出时的打字光标
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 2px;
+      vertical-align: -0.15em;
+      background: var(--accent);
+      animation: chat-blink 0.8s steps(1) infinite;
+    }
+  }
+
+  @keyframes chat-blink {
+    50% {
+      opacity: 0;
+    }
   }
 
   &-input {
@@ -93,5 +110,15 @@
         cursor: not-allowed;
       }
     }
+  }
+
+  &-error {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-size: 14px;
   }
 }
