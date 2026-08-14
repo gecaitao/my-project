@@ -14,21 +14,31 @@ const SYSTEM_PROMPT = {
 };
 
 /**
- * AI 聊天（SSE 流式）：POST /api/chat { messages }（需登录）
+ * AI 聊天（SSE 流式）：POST /api/chat { messages, conversationId }（需登录）
  *  - messages: OpenAI 兼容格式的历史消息（不含 system，由后台补）
+ *  - conversationId: 消息归属的对话
  *  - 后台调用 DeepSeek（stream），把 SSE 流原样透传回前端（打字机效果）
- *  - 流结束后，自动把完整 AI 回复写入当前用户的消息库
+ *  - 流结束后，自动把完整 AI 回复写入该对话的消息库
  */
 router.post("/", requireAuth, async (req, res) => {
-  const { messages } = req.body || {};
+  const { messages, conversationId } = req.body || {};
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: "messages 不能为空" });
+  }
+  if (!conversationId) {
+    return res.status(400).json({ error: "缺少 conversationId" });
   }
   if (!config.deepseekApiKey) {
     return res.status(500).json({ error: "服务端未配置 DEEPSEEK_API_KEY" });
   }
 
   const store = req.app.locals.store;
+
+  // 校验该对话属于当前用户
+  const conv = await store.conversations.findById(req.user.id, conversationId);
+  if (!conv) {
+    return res.status(404).json({ error: "对话不存在" });
+  }
 
   // 调用 DeepSeek（流式）
   let upstream;
@@ -102,11 +112,16 @@ router.post("/", requireAuth, async (req, res) => {
     res.end();
   }
 
-  // 完整回复落库（归属当前登录用户，供其历史记录复用）
+  // 完整回复落库（归属当前对话 + 当前用户）
   const text = full.trim();
   if (text) {
     try {
-      await store.messages.create({ role: "assistant", text, userId: req.user?.id ?? null });
+      await store.messages.create({
+        conversationId,
+        role: "assistant",
+        text,
+        userId: req.user.id,
+      });
       console.log(`[chat] AI 回复已保存 (${text.length} 字)`);
     } catch (err) {
       console.error("[chat] 保存 AI 回复失败:", err.message);

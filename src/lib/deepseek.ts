@@ -23,13 +23,15 @@ export interface ChatMessage {
 /**
  * 流式对话补全：把历史消息发给后台 /api/chat，
  * 后台调用 DeepSeek（stream）并把 SSE 流透传回来，onDelta 逐段接收（打字机效果）。
- * 返回完整拼接后的回复（后台也会自动把该回复存入消息库）。
+ * 返回完整拼接后的回复（后台也会自动把该回复存入指定对话）。
  *
  * @param messages 历史消息（不含 system，后台会自动补 AI 身份设定）
+ * @param conversationId 消息归属的对话 ID
  */
 export async function streamChatCompletion(
   messages: ChatMessage[],
   onDelta: (delta: string) => void,
+  conversationId: string,
 ): Promise<string> {
   const token = getToken();
   const res = await fetch(`${env.apiBaseUrl}/chat`, {
@@ -38,7 +40,7 @@ export async function streamChatCompletion(
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, conversationId }),
   });
 
   if (!res.ok) {

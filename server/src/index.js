@@ -3,6 +3,7 @@ import cors from "cors";
 import { config } from "./config.js";
 import { initDb } from "./db.js";
 import authRoutes from "./routes/auth.js";
+import conversationRoutes from "./routes/conversations.js";
 import messageRoutes from "./routes/messages.js";
 import chatRoutes from "./routes/chat.js";
 
@@ -29,6 +30,7 @@ app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 // 业务路由
 app.use("/api/auth", authRoutes);
+app.use("/api/conversations", conversationRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/chat", chatRoutes);
 

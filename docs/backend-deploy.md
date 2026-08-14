@@ -86,9 +86,13 @@ VITE_API_BASE_URL=https://xxx.zeabur.app/api
 | POST | `/api/auth/register` | 注册 `{ email, password, name? }` | 无 |
 | POST | `/api/auth/login` | 登录 `{ email, password }` → 返回 token | 无 |
 | GET | `/api/auth/me` | 当前用户 | Bearer token |
-| GET | `/api/messages` | 历史消息 | 无 |
-| POST | `/api/messages` | 存消息 `{ role, text }` | Bearer token |
-| POST | `/api/chat` | AI 聊天（SSE 流式）`{ messages }` | Bearer token |
+| GET | `/api/conversations` | 当前用户的对话列表 | Bearer token |
+| POST | `/api/conversations` | 新建对话 `{ title? }` | Bearer token |
+| PATCH | `/api/conversations/:id` | 重命名对话 `{ title }` | Bearer token |
+| DELETE | `/api/conversations/:id` | 删除对话（连带其消息） | Bearer token |
+| GET | `/api/messages?conversationId=x` | 某对话的消息 | Bearer token |
+| POST | `/api/messages` | 存消息 `{ role, text, conversationId }` | Bearer token |
+| POST | `/api/chat` | AI 聊天（SSE 流式）`{ messages, conversationId }` | Bearer token |
 
 ## 四、验证部署成功
 
