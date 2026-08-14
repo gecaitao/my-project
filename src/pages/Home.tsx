@@ -1,130 +1,74 @@
-import { useState, useEffect } from "react";
-import reactLogo from "@/assets/images/react.svg";
-import viteLogo from "@/assets/images/vite.svg";
-import heroImg from "@/assets/images/hero.png";
-import icons from "@/assets/icons/icons.svg";
-import data from "@/data/data.json"; // ① 默认导入：整个 JSON 对象
-import { name } from "@/data/data.json"; // ② 具名导入：只取根字段 name
+import { Link } from "react-router-dom";
 import "./Home.scss";
 
+// 导航应用列表：后续新增页面时，在此追加卡片即可
+const APPS = [
+  {
+    key: "chat",
+    title: "AI 聊天",
+    desc: "与 DeepSeek 实时对话，支持流式回复与历史记录",
+    to: "/chat",
+    tag: "DeepSeek",
+  },
+] as const;
+
 function Home() {
-  const [count, setCount] = useState(0);
-
-  // JSON 导入演示：结果在浏览器控制台查看
-  useEffect(() => {
-    console.log("[默认导入] 整个 JSON 对象:", data);
-    console.log("[具名导入] 根字段 name:", name);
-  }, []);
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="nav">
+      <header className="nav-hero">
+        <div className="brand">
+          <span className="brand-dot" />
+          <span>my-react</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <h1>应用导航</h1>
+        <p>选择一个应用开始你的旅程</p>
+      </header>
+
+      <section className="app-grid">
+        {APPS.map((app) => (
+          <Link key={app.key} to={app.to} className="app-card">
+            <span className="app-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8 10.5h8M8 14h4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.34-3.85-.94L3 20.5l1.55-4.35A8.5 8.5 0 1 1 21 11.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <div className="app-info">
+              <div className="app-title">
+                <h2>{app.title}</h2>
+                {app.tag && <span className="app-tag">{app.tag}</span>}
+              </div>
+              <p>{app.desc}</p>
+            </div>
+            <span className="app-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12h14m0 0-6-6m6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </Link>
+        ))}
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href={`${icons}#documentation-icon`}></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href={`${icons}#social-icon`}></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href={`${icons}#github-icon`}></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href={`${icons}#discord-icon`}></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href={`${icons}#x-icon`}></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href={`${icons}#bluesky-icon`}></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer className="nav-footer">
+        <p>Powered by React + Vite · 更多应用敬请期待</p>
+      </footer>
+    </div>
   );
 }
 

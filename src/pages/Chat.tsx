@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   collection,
   addDoc,
@@ -113,21 +114,108 @@ function Chat() {
   return (
     <div className="chat">
       <header className="chat-header">
-        <h1>Chat</h1>
-        <p>一个简单的聊天示例页面</p>
+        <Link to="/" className="chat-back" aria-label="返回导航">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M19 12H5m0 0 6-6m-6 6 6 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </Link>
+        <div className="chat-title">
+          <h1>AI 聊天</h1>
+          <p>与 DeepSeek 实时对话</p>
+        </div>
       </header>
 
       <div className="chat-messages">
+        {messages.length === 0 && !sending && (
+          <div className="chat-empty">
+            <div className="chat-empty-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8 10.5h8M8 14h4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.34-3.85-.94L3 20.5l1.55-4.35A8.5 8.5 0 1 1 21 11.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h2>开始对话吧</h2>
+            <p>在下方向 AI 助手输入你的问题，按 Enter 发送</p>
+          </div>
+        )}
+
         {messages.map((m) => (
           <div key={m.id} className={`chat-msg ${m.role}`}>
+            <span className={`avatar ${m.role}`} aria-hidden="true">
+              {m.role === "assistant" ? (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M8 10.5h8M8 14h4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.34-3.85-.94L3 20.5l1.55-4.35A8.5 8.5 0 1 1 21 11.5Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle
+                    cx="12"
+                    cy="8"
+                    r="4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path
+                    d="M4 20c0-3.3 3.6-5.5 8-5.5s8 2.2 8 5.5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              )}
+            </span>
             <div className="bubble">{m.text}</div>
           </div>
         ))}
+
         {/* 正在生成中的 AI 回复（流式打字机效果） */}
         {sending && (
           <div className="chat-msg assistant">
+            <span className="avatar assistant" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8 10.5h8M8 14h4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.34-3.85-.94L3 20.5l1.55-4.35A8.5 8.5 0 1 1 21 11.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <div className="bubble">
-              {pending}
+              {pending || "正在思考…"}
               <span className="cursor" />
             </div>
           </div>
@@ -135,7 +223,26 @@ function Chat() {
         <div ref={endRef} />
       </div>
 
-      {error && <div className="chat-error">{error}</div>}
+      {error && (
+        <div className="chat-error">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle
+              cx="12"
+              cy="12"
+              r="9"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            />
+            <path
+              d="M12 8v4m0 4h.01"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span>{error}</span>
+        </div>
+      )}
 
       <footer className="chat-input">
         <input
@@ -145,7 +252,20 @@ function Chat() {
           placeholder={sending ? "AI 正在回复…" : "输入消息，按 Enter 发送…"}
         />
         <button onClick={send} disabled={!input.trim() || sending}>
-          {sending ? "生成中…" : "发送"}
+          {sending ? (
+            <span className="btn-loading" aria-hidden="true" />
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M5 12h13m0 0-5-5m5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+          <span>{sending ? "生成中" : "发送"}</span>
         </button>
       </footer>
     </div>
