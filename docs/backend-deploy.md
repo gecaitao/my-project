@@ -41,6 +41,10 @@ npm run dev                 # 启动于 http://localhost:3000
 3. 服务目录填 `server`（或让 `zeabur.toml` 自动识别）。
 4. Zeabur 会自动 `npm install` 并按 `package.json` 的 `start` 启动。
 
+> 💡 如果 Zeabur 报错 `Dockerfile is required for arbitrary Git sources`（未能自动识别 Node 项目）：
+> 项目已内置 `server/Dockerfile`，Zeabur 会自动改走 **Dockerfile 方式**构建（`node:20-alpine` + `npm start`）。
+> 只需重新触发部署（或删除服务重建、重新选择该 Git 源）即可，无需其它改动。
+
 ### 3. 创建数据库
 
 1. 在项目里 **新建服务** → 选 **MongoDB**（Zeabur 模板）。
