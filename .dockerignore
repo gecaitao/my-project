@@ -1,0 +1,15 @@
+# 后端镜像构建上下文：只打包 server/，排除前端与其它
+node_modules
+dist
+src
+public
+docs
+scripts
+.github
+assets
+.env
+.env.*
+*.local
+npm-debug.log*
+.git
+zeabur.toml
