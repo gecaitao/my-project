@@ -37,6 +37,7 @@ function Chat() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   // 防止 React StrictMode 开发模式下 useEffect 双执行导致重复初始化
   const initializedRef = useRef(false);
@@ -108,6 +109,7 @@ function Chat() {
   const selectConversation = async (id: string) => {
     setActiveId(id);
     setError(null);
+    setSidebarOpen(false); // 移动端选择后收起抽屉
     await loadMessages(id);
   };
 
@@ -123,6 +125,7 @@ function Chat() {
         setConversations((prev) => [data.conversation, ...prev]);
         setActiveId(data.conversation.id);
         setMessages([]);
+        setSidebarOpen(false); // 移动端新建后收起抽屉
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "新建对话失败");
@@ -258,7 +261,11 @@ function Chat() {
 
   return (
     <div className="chat">
-      <aside className="chat-sidebar">
+      <div
+        className={`sidebar-mask ${sidebarOpen ? "show" : ""}`}
+        onClick={() => setSidebarOpen(false)}
+      />
+      <aside className={`chat-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-top">
           <Link to="/" className="chat-back" aria-label="返回导航">
             <svg viewBox="0 0 24 24" fill="none">
@@ -350,6 +357,20 @@ function Chat() {
 
       <main className="chat-main">
         <header className="chat-header">
+          <button
+            className="menu-btn"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="打开对话列表"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M4 6h16M4 12h16M4 18h16"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
           <div className="chat-title">
             <h1>
               {conversations.find((c) => c.id === activeId)?.title || "新对话"}

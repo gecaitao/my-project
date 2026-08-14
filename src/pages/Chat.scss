@@ -219,6 +219,107 @@
     }
   }
 
+  // ===== 移动端菜单按钮 / 抽屉遮罩 =====
+  .menu-btn {
+    display: none; // 桌面隐藏，移动端显示
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--code-bg);
+    color: var(--text-h);
+    cursor: pointer;
+    flex-shrink: 0;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+  }
+
+  .sidebar-mask {
+    display: none; // 桌面隐藏，移动端显示
+  }
+
+  // ===== 移动端（≤768px）：侧边栏改为抽屉式 =====
+  @media (max-width: 768px) {
+    .menu-btn {
+      display: grid;
+    }
+
+    .sidebar-mask {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 20;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+
+      &.show {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 30;
+      width: 280px;
+      max-width: 82vw;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      box-shadow: var(--shadow);
+
+      &.open {
+        transform: translateX(0);
+      }
+    }
+
+    &-main {
+      padding: 0 12px;
+    }
+
+    &-header {
+      padding: 12px 0;
+
+      .chat-title {
+        h1 {
+          font-size: 17px;
+        }
+      }
+    }
+
+    &-input {
+      padding: 12px 0;
+
+      input {
+        padding: 10px 12px;
+        font-size: 15px;
+      }
+
+      button {
+        padding: 0 14px;
+      }
+    }
+
+    &-msg {
+      max-width: 92%;
+    }
+  }
+
   // ===== 头部 =====
   &-header {
     display: flex;
