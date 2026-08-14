@@ -60,7 +60,7 @@ function Home() {
       <header className="nav-hero">
         <div className="brand">
           <span className="brand-dot" />
-          <span>my-react</span>
+          <span>my-project</span>
         </div>
         <h1>应用导航</h1>
         <p>选择一个应用开始你的旅程</p>

@@ -92,7 +92,7 @@ function Login() {
       <div className="login-card">
         <div className="login-brand">
           <span className="login-dot" />
-          <span>my-react</span>
+          <span>my-project</span>
         </div>
 
         {isLoggedIn() && user ? (

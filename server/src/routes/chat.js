@@ -9,7 +9,7 @@ const DEEPSEEK_URL = "https://api.deepseek.com/chat/completions";
 const SYSTEM_PROMPT = {
   role: "system",
   content:
-    "你是 my-react 聊天应用里的 AI 助手，请用简洁、友好的中文回答问题。",
+    "你是 my-project 聊天应用里的 AI 助手，请用简洁、友好的中文回答问题。",
 };
 
 /**

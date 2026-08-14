@@ -3,7 +3,7 @@
 # 用法：把本仓库推送到 GitHub，在 Zeabur 新建项目并连接该仓库即可自动识别。
 #
 # 若自动识别失败，可手动在 Zeabur 控制台：
-#   项目 → 服务 → 新建服务 → 选择 my-react 仓库 → 服务目录填 server
+#   项目 → 服务 → 新建服务 → 选择 my-project 仓库 → 服务目录填 server
 
 [[services]]
 name = "server"

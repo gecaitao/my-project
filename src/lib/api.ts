@@ -5,7 +5,7 @@ import { env } from "@/config/env";
  * 负责：JWT token 的存取、鉴权请求头、JSON 序列化
  */
 
-const TOKEN_KEY = "my-react-token";
+const TOKEN_KEY = "my-project-token";
 
 /** 读取本地 token */
 export function getToken(): string {

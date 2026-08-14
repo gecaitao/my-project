@@ -1,8 +1,8 @@
 {
-  "name": "my-react-server",
+  "name": "my-project-server",
   "private": true,
   "version": "1.0.0",
-  "description": "my-react 的 Node.js 后台：Express + MongoDB + JWT 注册登录 + DeepSeek 聊天代理",
+  "description": "my-project 的 Node.js 后台：Express + MongoDB + JWT 注册登录 + DeepSeek 聊天代理",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

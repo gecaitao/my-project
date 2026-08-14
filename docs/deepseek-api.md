@@ -132,7 +132,7 @@ interface ChatMessage {
 ```jsonc
 "messages": [
   // ① 系统设定（可选）：规定身份与规则
-  { "role": "system", "content": "你是 my-react 的智能客服，回答要简洁、使用中文。" },
+  { "role": "system", "content": "你是 my-project 的智能客服，回答要简洁、使用中文。" },
 
   // ② 第一轮：用户提问
   { "role": "user", "content": "你好" },

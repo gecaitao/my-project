@@ -18,7 +18,7 @@ DeepSeek API
 ## 一、本地开发
 
 ```powershell
-cd d:\my-react\server
+cd d:\my-project\server
 copy .env.example .env      # 填写 DEEPSEEK_API_KEY 等（.env 已被 gitignore）
 npm install
 npm run dev                 # 启动于 http://localhost:3000
@@ -37,7 +37,7 @@ npm run dev                 # 启动于 http://localhost:3000
 ### 2. 创建项目并部署后端
 
 1. Zeabur 控制台 → **新建项目** → **创建服务**。
-2. 选 **GitHub** → 授权 → 选择 `my-react` 仓库。
+2. 选 **GitHub** → 授权 → 选择 `my-project` 仓库。
 3. 服务目录填 `server`（或让 `zeabur.toml` 自动识别）。
 4. Zeabur 会自动 `npm install` 并按 `package.json` 的 `start` 启动。
 

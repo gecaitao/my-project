@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
-    // GitHub Pages 项目页部署路径（https://gecaitao.github.io/my-react/）
-    base: isProduct ? "/my-react/" : "/",
+    // GitHub Pages 项目页部署路径（https://gecaitao.github.io/my-project/）
+    base: isProduct ? "/my-project/" : "/",
   };
 });

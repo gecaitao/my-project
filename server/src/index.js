@@ -46,7 +46,7 @@ const store = await initDb();
 app.locals.store = store;
 
 app.listen(config.port, () => {
-  console.log(`my-react 后台已启动: http://localhost:${config.port}  (存储: ${store.mode})`);
+  console.log(`my-project 后台已启动: http://localhost:${config.port}  (存储: ${store.mode})`);
   if (!config.deepseekApiKey) {
     console.warn("⚠️  未配置 DEEPSEEK_API_KEY，/api/chat 将不可用");
   }

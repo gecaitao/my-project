@@ -42,7 +42,7 @@ if (!key) {
 
 // 构造多轮对话示例（演示 messages 结构：system / user / assistant）
 const messages = [
-  { role: "system", content: "你是 my-react 项目里的一位简洁中文助手。" },
+  { role: "system", content: "你是 my-project 项目里的一位简洁中文助手。" },
   { role: "user", content: "你好，请自我介绍一下。" },
   { role: "assistant", content: "你好！我是由 DeepSeek 驱动的 AI 助手，很高兴为你服务。" },
   { role: "user", content: prompt },

@@ -4,7 +4,7 @@ import Home from "@/pages/Home";
 import Chat from "@/pages/Chat";
 import Login from "@/pages/Login";
 
-// 集中式路由配置（Hash 模式：URL 形如 /my-react/#/，天然规避 GitHub Pages 深链接 404，无需 basename）
+// 集中式路由配置（Hash 模式：URL 形如 /my-project/#/，天然规避 GitHub Pages 深链接 404，无需 basename）
 export const router = createHashRouter([
   {
     path: "/",
