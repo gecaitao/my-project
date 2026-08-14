@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode develop",
+    "dev": "concurrently -k -n server,web -c blue,green \"npm --prefix server run dev\" \"vite --mode develop\"",
     "dev:product": "vite --mode product",
     "build": "tsc -b && vite build --mode product",
     "build:develop": "tsc -b && vite build --mode develop",
@@ -13,7 +13,6 @@
     "preview:develop": "vite preview --mode develop"
   },
   "dependencies": {
-    "firebase": "^12.17.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2"
@@ -23,6 +22,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
+    "concurrently": "^10.0.4",
     "oxlint": "^1.75.0",
     "sass": "^1.102.0",
     "typescript": "~6.0.2",

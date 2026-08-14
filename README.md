@@ -11,17 +11,15 @@ This template provides a minimal setup to get React working in Vite with HMR and
 | 文件 | 用途 |
 | --- | --- |
 | `.env` | 公共配置（所有环境共享） |
-| `.env.develop` | 开发环境配置（API 地址、Firebase 开发项目等） |
-| `.env.product` | 生产环境配置（API 地址、Firebase 生产项目等） |
+| `.env.develop` | 开发环境配置（后端 API 地址等） |
+| `.env.product` | 生产环境配置（后端 API 地址等） |
 | `.env.example` | 配置模板，新增变量时同步维护 |
 | `.env.local` / `.env.*.local` | 本地覆盖文件（已被 gitignore，不会提交） |
-
-> 说明：`.env.develop` / `.env.product` 中的 Firebase 配置为公开值，可提交；若后续引入真实密钥，请改用 GitHub Actions Secrets 注入或本地 `.env.product.local` 覆盖。
 
 ### 常用命令
 
 ```bash
-# 开发环境运行（本地开发）
+# 开发环境运行（本地开发，同时启动 Node 后端 + Vite 前端）
 npm run dev
 
 # 以生产环境配置运行开发服务器（用于本地预览生产配置）
@@ -37,6 +35,17 @@ npm run build:develop
 npm run preview        # 生产产物
 npm run preview:develop
 ```
+
+### 项目结构
+
+```text
+src/        React 前端（页面、路由、API 封装）
+server/     Node.js 后台（Express + MongoDB + JWT 注册登录 + DeepSeek 聊天）
+scripts/    工具脚本（后端冒烟测试等）
+docs/       文档（后端部署指南等）
+```
+
+> 根目录 `npm run dev` 会通过 `concurrently` 同时启动 `server/`（后端，默认端口 3000，未配置 MongoDB 时用内存存储）和 Vite（前端）。
 
 ### 在代码中读取环境常量
 

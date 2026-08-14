@@ -14,21 +14,6 @@ interface ImportMetaEnv {
 
   /** DeepSeek API Key（本地演示用，生产环境请走后端代理） */
   readonly VITE_DEEPSEEK_API_KEY: string;
-
-  /** Firebase API 密钥 */
-  readonly VITE_FIREBASE_API_KEY: string;
-  /** Firebase 认证域名 */
-  readonly VITE_FIREBASE_AUTH_DOMAIN: string;
-  /** Firebase 项目 ID */
-  readonly VITE_FIREBASE_PROJECT_ID: string;
-  /** Firebase 存储桶 */
-  readonly VITE_FIREBASE_STORAGE_BUCKET: string;
-  /** Firebase 消息发送者 ID */
-  readonly VITE_FIREBASE_MESSAGING_SENDER_ID: string;
-  /** Firebase 应用 ID */
-  readonly VITE_FIREBASE_APP_ID: string;
-  /** Firebase 统计 ID */
-  readonly VITE_FIREBASE_MEASUREMENT_ID: string;
 }
 
 interface ImportMeta {

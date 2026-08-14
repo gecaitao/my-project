@@ -9,9 +9,8 @@
  *
  * 用法示例：
  *   import { env } from "@/config/env";
- *   console.log(env.mode, env.apiBaseUrl, env.firebase.projectId);
+ *   console.log(env.mode, env.apiBaseUrl);
  */
-import type { FirebaseOptions } from "firebase/app";
 
 /** 当前支持的环境模式 */
 export type AppMode = "develop" | "product";
@@ -21,7 +20,7 @@ const mode: AppMode =
 
 /**
  * 环境相关常量集合
- * 这里统一存放不同环境下会变化的常量（API 地址、Firebase 配置等），
+ * 这里统一存放不同环境下会变化的常量（API 地址、后端地址等），
  * 后续如需新增环境差异化配置，请在此处扩展。
  */
 export const env = {
@@ -42,17 +41,6 @@ export const env = {
 
   /** 后端 API 请求地址（不同环境指向不同服务器） */
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
-
-  /** Firebase 配置（不同环境对应不同的 Firebase 项目） */
-  firebase: {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-  } satisfies FirebaseOptions,
 } as const;
 
 export default env;

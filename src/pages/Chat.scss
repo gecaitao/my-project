@@ -60,6 +60,40 @@
         font-size: 13px;
       }
     }
+
+    .chat-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .chat-user-name {
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .chat-logout {
+        padding: 6px 12px;
+        font-size: 13px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--code-bg);
+        color: var(--text-h);
+        cursor: pointer;
+        font: inherit;
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          border-color: var(--accent-border);
+          color: var(--accent);
+        }
+      }
+    }
   }
 
   // ===== 消息区 =====
