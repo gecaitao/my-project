@@ -66,8 +66,8 @@ function createMongoStore() {
         const doc = await MessageModel.create({ role, text, userId });
         return { id: String(doc._id), role: doc.role, text: doc.text };
       },
-      async list() {
-        const docs = await MessageModel.find().sort({ createdAt: 1 });
+      async list(userId) {
+        const docs = await MessageModel.find({ userId }).sort({ createdAt: 1 });
         return docs.map((d) => ({
           id: String(d._id),
           role: d.role,
@@ -99,8 +99,9 @@ function createMemoryStore() {
         memMessages.push(msg);
         return { id: msg.id, role: msg.role, text: msg.text };
       },
-      async list() {
+      async list(userId) {
         return memMessages
+          .filter((m) => m.userId === userId)
           .slice()
           .sort((a, b) => a.createdAt - b.createdAt)
           .map((m) => ({ id: m.id, role: m.role, text: m.text }));

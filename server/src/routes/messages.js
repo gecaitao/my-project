@@ -3,10 +3,10 @@ import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
-/** 拉取历史消息：GET /api/messages */
-router.get("/", async (req, res) => {
+/** 拉取当前用户的历史消息：GET /api/messages（需登录） */
+router.get("/", requireAuth, async (req, res) => {
   const store = req.app.locals.store;
-  const list = await store.messages.list();
+  const list = await store.messages.list(req.user.id);
   res.json({ messages: list });
 });
 
