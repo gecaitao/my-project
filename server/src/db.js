@@ -41,47 +41,45 @@ let memMessages = [];
 let memUserId = 0;
 let memMsgId = 0;
 
-// ============ 工厂：根据配置返回 store ============
-export async function initDb() {
-  if (config.mongoUri) {
-    await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 5000 });
-    console.log(`[db] MongoDB 已连接: ${config.mongoUri}`);
-    return {
-      mode: "mongo",
-      users: {
-        async create({ email, passwordHash, name = "" }) {
-          const doc = await UserModel.create({ email, passwordHash, name });
-          return { id: String(doc._id), email: doc.email, name: doc.name };
-        },
-        async findByEmail(email) {
-          const doc = await UserModel.findOne({ email: email.toLowerCase() });
-          if (!doc) return null;
-          return {
-            id: String(doc._id),
-            email: doc.email,
-            name: doc.name,
-            passwordHash: doc.passwordHash,
-          };
-        },
+// ============ MongoDB 实现 ============
+function createMongoStore() {
+  return {
+    mode: "mongo",
+    users: {
+      async create({ email, passwordHash, name = "" }) {
+        const doc = await UserModel.create({ email, passwordHash, name });
+        return { id: String(doc._id), email: doc.email, name: doc.name };
       },
-      messages: {
-        async create({ role, text, userId = null }) {
-          const doc = await MessageModel.create({ role, text, userId });
-          return { id: String(doc._id), role: doc.role, text: doc.text };
-        },
-        async list() {
-          const docs = await MessageModel.find().sort({ createdAt: 1 });
-          return docs.map((d) => ({
-            id: String(d._id),
-            role: d.role,
-            text: d.text,
-          }));
-        },
+      async findByEmail(email) {
+        const doc = await UserModel.findOne({ email: email.toLowerCase() });
+        if (!doc) return null;
+        return {
+          id: String(doc._id),
+          email: doc.email,
+          name: doc.name,
+          passwordHash: doc.passwordHash,
+        };
       },
-    };
-  }
+    },
+    messages: {
+      async create({ role, text, userId = null }) {
+        const doc = await MessageModel.create({ role, text, userId });
+        return { id: String(doc._id), role: doc.role, text: doc.text };
+      },
+      async list() {
+        const docs = await MessageModel.find().sort({ createdAt: 1 });
+        return docs.map((d) => ({
+          id: String(d._id),
+          role: d.role,
+          text: d.text,
+        }));
+      },
+    },
+  };
+}
 
-  console.warn("[db] 未配置 MONGODB_URI，使用内存存储（仅本地调试，重启丢数据）");
+// ============ 内存实现（本地调试 / 降级） ============
+function createMemoryStore() {
   return {
     mode: "memory",
     users: {
@@ -109,4 +107,23 @@ export async function initDb() {
       },
     },
   };
+}
+
+// ============ 工厂：根据配置返回 store ============
+export async function initDb() {
+  // 配置了 MONGODB_URI → 尝试连 MongoDB；连接失败降级内存，绝不让进程崩溃
+  if (config.mongoUri) {
+    try {
+      await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 10000 });
+      console.log("[db] MongoDB 已连接，使用持久化存储");
+      return createMongoStore();
+    } catch (err) {
+      console.error(`[db] MongoDB 连接失败（${err.message}），降级为内存存储`);
+    }
+  } else {
+    console.warn("[db] 未配置 MONGODB_URI");
+  }
+
+  console.warn("[db] 当前使用内存存储（重启数据丢失，仅适合本地调试）");
+  return createMemoryStore();
 }
